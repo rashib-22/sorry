@@ -1,0 +1,606 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sorry, Really Sorry</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=Lora:ital,wght@0,500;0,600;1,500&family=Caveat:wght@500;700&display=swap">
+<style>
+/* Layout: a story of five screens (cover, letter, daisy, movie date ask, date planner) on pale pink grid paper with a zigzag blob, washi tape and outline hearts fixed behind, and a row of flowers at the foot of every screen. One committed light look in burgundy and pinks. */
+:root {
+  color-scheme: light;
+  --bg: #FFF4F7;
+  --grid: #F8DCE6;
+  --burg: #8A1B4A;
+  --text: #6A2F47;
+  --muted: #8F5C72;
+  --pink: #F3B4CF;
+  --pink-2: #E27FAA;
+  --tape: #EBA7C4;
+  --beige: #F7E6D3;
+  --paper: #F9E8D7;
+  --rule: rgba(176, 112, 110, .3);
+  --card: #FFF9F5;
+  --stamp: #C2185B;
+  --tear: #8FC3EE;
+  --cloud: #D7E0F3;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-text: "Lora", "Georgia", serif;
+  --font-hand: "Caveat", "Segoe Print", cursive;
+}
+* { box-sizing: border-box; }
+body {
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 30px 30px;
+  color: var(--text);
+  font-family: var(--font-text);
+  font-size: 17px;
+  line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 22px 0;
+  overflow-x: hidden;
+}
+h1, h2 { font-family: var(--font-display); color: var(--burg); margin: 0; line-height: 1.1; text-wrap: balance; }
+p { margin: 0; }
+button { font-family: inherit; }
+:focus-visible { outline: 3px solid var(--burg); outline-offset: 3px; border-radius: 10px; }
+
+/* fixed backdrop */
+.decor { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.blob { position: absolute; top: 0; left: 0; width: min(78vw, 380px); height: auto; }
+.tape { position: absolute; height: 32px; background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .28) 0 5px, transparent 5px 10px), var(--tape); opacity: .9; box-shadow: 0 2px 4px rgba(138, 27, 74, .12); }
+.tape.t1 { top: 76px; right: -26px; width: 170px; transform: rotate(24deg); }
+.tape.t2 { top: 330px; left: -34px; width: 120px; transform: rotate(-36deg); }
+.always { position: absolute; top: 66px; right: 14%; font-family: var(--font-hand); font-size: 1.5rem; color: #C56A92; transform: rotate(9deg); }
+.oh { position: absolute; fill: none; stroke: var(--burg); stroke-width: 1.7; stroke-linejoin: round; stroke-linecap: round; }
+.oh.h1 { top: 150px; right: 15%; width: 34px; }
+.oh.h2 { top: 196px; right: 5%; width: 42px; }
+.oh.h3 { top: 56%; left: 3%; width: 30px; }
+.oh.h4 { top: 22%; left: 5%; width: 26px; stroke: var(--pink-2); }
+.oh.s1 { top: 150px; right: 30%; width: 22px; stroke: var(--pink-2); }
+
+.wrap { position: relative; z-index: 1; max-width: 620px; margin: 0 auto; }
+.step {
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  min-height: calc(100svh - 22px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  animation: stepin .5s ease-out;
+}
+@keyframes stepin { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.back { align-self: flex-start; font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--burg); background: var(--beige); border: 2.5px dashed var(--burg); border-radius: 999px; padding: 4px 22px; cursor: pointer; }
+.pill {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; color: var(--burg); background: var(--beige);
+  border: 3px dashed var(--burg); border-radius: 999px; padding: 12px 52px; cursor: pointer; text-decoration: none; display: inline-block; text-align: center;
+  box-shadow: 0 5px 0 rgba(138, 27, 74, .18); transition: transform .15s;
+}
+.pill:hover { transform: translateY(-2px); }
+.pill:active { transform: translateY(3px); box-shadow: none; }
+.ghost { font-weight: 700; font-size: 1.05rem; color: var(--burg); background: transparent; border: 2.5px dashed var(--burg); border-radius: 999px; padding: 8px 24px; cursor: pointer; }
+.row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+.stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+/* cover */
+.cover { margin-top: clamp(80px, 17vh, 160px); text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.title { font-weight: 900; font-size: clamp(3.4rem, 17vw, 5.4rem); }
+.wave { width: min(300px, 78vw); height: 16px; overflow: visible; }
+.wave path { fill: none; stroke: var(--pink-2); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; animation: draw 1s ease-out both; }
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+.sub { font-size: 1.25rem; color: var(--muted); letter-spacing: .02em; margin-bottom: 8px; }
+.bunny-zone { position: relative; z-index: 2; margin-top: auto; display: flex; flex-direction: column; align-items: center; margin-bottom: -66px; }
+.bunny-zone .bunny { width: 190px; }
+
+/* bunny */
+.bunny { display: block; height: auto; animation: sway 4s ease-in-out infinite; transform-origin: 50% 90%; }
+@keyframes sway { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+.bn { fill: #FFFDFB; stroke: var(--burg); stroke-width: 3; stroke-linejoin: round; }
+.in { fill: #F7C3D8; stroke: var(--burg); stroke-width: 2; }
+.ch { fill: #F6A9C6; opacity: .75; }
+.ns { fill: #E86A9A; stroke: var(--burg); stroke-width: 1.5; }
+.f-eye { fill: var(--burg); }
+.hl { fill: #FFFFFF; }
+.f-line { fill: none; stroke: var(--burg); stroke-width: 3; stroke-linecap: round; }
+.f-tear { fill: var(--tear); stroke: var(--burg); stroke-width: 1; }
+.f-mouth { fill: #E56E9A; stroke: var(--burg); stroke-width: 2.5; stroke-linejoin: round; }
+.m-happy, .m-wait { display: none; }
+.mood-wait .m-sad, .mood-yes .m-sad { display: none; }
+.mood-wait .m-wait, .mood-yes .m-happy { display: inline; }
+
+/* speech bubble */
+.bubble {
+  position: relative; background: var(--beige); color: var(--burg); border: 2.5px dashed var(--burg); border-radius: 999px;
+  padding: 4px 22px 6px; font-family: var(--font-hand); font-weight: 700; font-size: 1.5rem; line-height: 1.2; text-align: center; text-wrap: balance;
+}
+.bubble::after { content: ""; position: absolute; bottom: -9px; left: 38px; width: 14px; height: 14px; background: var(--beige); border-right: 2.5px dashed var(--burg); border-bottom: 2.5px dashed var(--burg); transform: rotate(45deg); }
+.bubble.side { border-radius: 22px; text-align: left; padding: 10px 16px 12px; }
+.bubble.side::after { bottom: auto; top: 50%; left: -9px; transform: translateY(-50%) rotate(135deg); }
+.bubble.pop { animation: popin .4s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes popin { from { transform: scale(.9); } to { transform: scale(1); } }
+.bunny-zone .bubble { margin-bottom: 12px; margin-left: 70px; }
+
+/* letter */
+.paper {
+  position: relative; align-self: stretch; margin-top: 34px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(to bottom, transparent 0 31px, var(--rule) 31px 32px);
+  background-position: 0 34px;
+  border-radius: 6px; padding: 34px 22px 76px 44px;
+  box-shadow: 0 12px 26px rgba(138, 27, 74, .2);
+  transform: rotate(-.4deg);
+  font-size: 17px; line-height: 32px; color: var(--text);
+}
+.paper::before { content: ""; position: absolute; left: 32px; top: 0; bottom: 0; width: 2px; background: rgba(214, 120, 150, .5); }
+.paper .tape-top { position: absolute; top: -17px; left: 50%; width: 150px; height: 34px; transform: translateX(-50%) rotate(-2deg); background: repeating-linear-gradient(135deg, rgba(255, 255, 255, .28) 0 5px, transparent 5px 10px), var(--tape); box-shadow: 0 2px 4px rgba(138, 27, 74, .15); }
+.paper .xoxo { position: absolute; left: -4px; top: 150px; font-family: var(--font-hand); font-size: 1.15rem; color: #B9628A; transform: rotate(-14deg); }
+.paper .greet { font-family: var(--font-hand); font-weight: 700; font-size: 2.3rem; color: var(--burg); height: 64px; line-height: 64px; margin: 0; }
+.paper p { margin: 0 0 32px; }
+.paper p:last-of-type { margin-bottom: 0; }
+.paper .sign { font-family: var(--font-hand); font-weight: 700; font-size: 1.9rem; color: var(--burg); line-height: 32px; margin-top: 8px; }
+.letter-bunny { align-self: flex-end; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; margin-top: -92px; position: relative; z-index: 2; padding-right: 4px; }
+.letter-bunny .bunny { width: 120px; }
+.letter-bunny .bubble { margin-right: 36px; font-size: 1.35rem; }
+
+/* daisy */
+.note-card { align-self: stretch; background: var(--card); border: 3px dashed var(--burg); border-radius: 28px; padding: 18px 14px 22px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.head-block { text-align: center; display: flex; flex-direction: column; gap: 6px; align-items: center; margin-top: 8px; }
+.head-block h2 { font-size: clamp(1.9rem, 8vw, 2.5rem); font-weight: 900; }
+.head-block p { color: var(--muted); max-width: 32ch; }
+.react { display: flex; align-items: center; gap: 18px; width: 100%; }
+.rx-bunny { position: relative; flex: none; width: 118px; padding-top: 24px; }
+.rx-bunny .bunny { width: 118px; }
+.cloud { position: absolute; left: 50%; top: -14px; width: 104px; transform: translateX(-50%) scale(.5); opacity: 0; transition: opacity .3s, transform .3s; pointer-events: none; }
+.cloud path { fill: var(--cloud); stroke: var(--burg); stroke-width: 2.5; stroke-linejoin: round; }
+.mood-no .cloud { opacity: 1; transform: translateX(-50%) scale(1); }
+.rain { position: absolute; left: 0; right: 0; top: 20px; height: 120px; pointer-events: none; }
+.drop { position: absolute; top: 0; width: 6px; height: 12px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: var(--tear); animation: fall 1.1s ease-in forwards; }
+@keyframes fall { from { transform: translateY(0); opacity: 1; } to { transform: translateY(104px); opacity: 0; } }
+.hh { position: absolute; top: 34%; color: var(--pink-2); font-family: sans-serif; line-height: 1; pointer-events: none; animation: hrise 1.2s ease-out forwards; }
+@keyframes hrise { from { opacity: 1; transform: translate(0, 0) scale(.7); } to { opacity: 0; transform: translate(var(--hx), -96px) scale(1.2); } }
+.hop .rx-bunny { animation: hop .7s ease-out; }
+.sob .rx-bunny { animation: sob .9s ease-in-out; }
+@keyframes hop { 0% { transform: translateY(0); } 30% { transform: translateY(-26px) rotate(-6deg); } 55% { transform: translateY(0) rotate(4deg); } 75% { transform: translateY(-10px); } 100% { transform: none; } }
+@keyframes sob { 0%, 100% { transform: none; } 15% { transform: translateY(4px) rotate(-5deg); } 35% { transform: translateY(4px) rotate(5deg); } 55% { transform: translateY(4px) rotate(-4deg); } 75% { transform: translateY(2px) rotate(3deg); } }
+.react .bubble { flex: 1; min-width: 0; }
+.react .bubble.yes { font-size: 1.8rem; }
+.daisy { width: min(260px, 72vw); height: auto; overflow: visible; }
+.pt { cursor: pointer; transform-box: fill-box; transform-origin: center; transition: transform .15s; }
+.pt:hover { transform: translateY(-4px); }
+.dp { fill: #FFFFFF; stroke: var(--burg); stroke-width: 2.5; }
+.pt.gone { animation: pluck .9s ease-in forwards; pointer-events: none; }
+@keyframes pluck { to { transform: translate(var(--sx, 0px), -110px) rotate(var(--rot, 30deg)); opacity: 0; } }
+.dc { fill: #F7C948; stroke: var(--burg); stroke-width: 2.5; }
+.dc2 { fill: #EDA53A; }
+.dstem { stroke: var(--burg); stroke-width: 4; fill: none; stroke-linecap: round; }
+.dleaf { fill: var(--pink); stroke: var(--burg); stroke-width: 2.5; }
+.daisy.glow .dc { animation: pulse 1s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+.d-line { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--burg); text-align: center; min-height: 2.5em; display: flex; flex-direction: column; align-items: center; justify-content: center; text-wrap: balance; }
+.d-line small { font-family: var(--font-text); font-size: .8rem; color: var(--muted); font-weight: 600; }
+
+/* ask */
+.ask-card { align-self: stretch; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 8px; }
+.ask-card h2 { font-size: clamp(2rem, 9vw, 2.8rem); font-weight: 900; text-align: center; }
+.big-q { font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; color: var(--burg); text-align: center; max-width: 26ch; text-wrap: balance; }
+.ask-card .small { color: var(--muted); text-align: center; max-width: 34ch; }
+.ask-rx { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 4px; }
+.ask-rx .rx-bunny { width: 150px; padding-top: 0; }
+.ask-rx .rx-bunny .bunny { width: 150px; }
+
+/* plan */
+.plan { align-self: stretch; background: var(--card); border: 3px dashed var(--burg); border-radius: 26px; padding: 22px 18px; display: flex; flex-direction: column; gap: 20px; }
+.opts { border: 0; margin: 0; padding: 0; min-width: 0; }
+.opts legend { padding: 0; margin-bottom: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; font-size: .78rem; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { position: relative; }
+.chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.chip span { display: block; padding: 8px 16px; border-radius: 999px; border: 2px dashed var(--burg); color: var(--burg); font-weight: 600; background: rgba(255, 255, 255, .7); transition: background .15s, color .15s, transform .15s; }
+.chip:hover span { transform: translateY(-2px); }
+.chip input:checked + span { background: var(--burg); color: #fff; border-style: solid; }
+.chip input:focus-visible + span { outline: 3px solid var(--burg); outline-offset: 2px; }
+.ticket-wrap { align-self: stretch; display: flex; flex-direction: column; gap: 18px; align-items: center; }
+.ticket { position: relative; width: 100%; background: var(--paper); color: var(--text); border-radius: 14px; padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 12px 24px rgba(138, 27, 74, .2); border: 2px solid rgba(138, 27, 74, .25); }
+.t-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.t-head strong { font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; color: var(--burg); }
+.t-head span { font-weight: 600; letter-spacing: .14em; font-size: .75rem; text-transform: uppercase; }
+.t-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; margin: 0; }
+.t-grid div { min-width: 0; }
+.t-grid dt { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+.t-grid dd { margin: 0; font-weight: 600; font-size: 1.05rem; color: var(--burg); overflow-wrap: anywhere; }
+.t-wide { grid-column: 1 / -1; }
+.t-perf { position: relative; border-top: 3px dashed #D9A9B9; margin: 2px -20px; }
+.t-perf::before, .t-perf::after { content: ""; position: absolute; top: -13px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 2px solid rgba(138, 27, 74, .25); }
+.t-perf::before { left: -12px; }
+.t-perf::after { right: -12px; }
+.t-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-weight: 600; font-size: .9rem; }
+.stamp { position: absolute; right: 14px; top: 62px; border: 4px solid var(--stamp); color: var(--stamp); border-radius: 10px; padding: 2px 12px; font-family: var(--font-display); font-weight: 900; font-size: 1.6rem; letter-spacing: .08em; opacity: 0; transform: rotate(-14deg) scale(2.2); transition: opacity .25s, transform .35s cubic-bezier(.3, 1.5, .5, 1); pointer-events: none; }
+.ticket.booked .stamp { opacity: .92; transform: rotate(-14deg) scale(1); }
+.done { width: 100%; display: flex; flex-direction: column; gap: 12px; align-items: center; text-align: center; }
+.done p { color: var(--burg); font-weight: 600; }
+.done textarea { width: 100%; font: inherit; font-size: .95rem; border-radius: 14px; border: 2px dashed var(--burg); background: var(--card); color: var(--text); padding: 12px; resize: none; }
+.copy-msg { min-height: 1.4em; font-size: .9rem; color: var(--muted); }
+
+/* flowers */
+.flowers { position: relative; z-index: 1; flex: none; width: 100vw; height: 120px; margin-top: auto; overflow: hidden; pointer-events: none; }
+.step > .gap { height: 24px; flex: none; }
+.fl { position: absolute; animation: lean 6s ease-in-out infinite alternate; }
+.fl svg { display: block; width: 100%; height: 100%; }
+@keyframes lean { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+
+canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 20; }
+
+@media (max-width: 380px) {
+  .react { gap: 12px; }
+  .rx-bunny, .rx-bunny .bunny { width: 98px; }
+  .t-grid { grid-template-columns: 1fr; }
+  .pill { padding: 12px 36px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<div class="decor" aria-hidden="true" id="decor">
+  <svg class="blob" id="blob" viewBox="0 0 320 320"></svg>
+  <div class="tape t1"></div>
+  <div class="tape t2"></div>
+  <span class="always">always</span>
+  <svg class="oh h1" viewBox="0 0 24 22"><path d="M12 20 C 2 13, 1 6, 6 4 C 9 3, 11 5, 12 7 C 13 5, 15 3, 18 4 C 23 6, 22 13, 12 20Z"/></svg>
+  <svg class="oh h2" viewBox="0 0 24 22"><path d="M12 20 C 2 13, 1 6, 6 4 C 9 3, 11 5, 12 7 C 13 5, 15 3, 18 4 C 23 6, 22 13, 12 20Z"/></svg>
+  <svg class="oh h3" viewBox="0 0 24 22"><path d="M12 20 C 2 13, 1 6, 6 4 C 9 3, 11 5, 12 7 C 13 5, 15 3, 18 4 C 23 6, 22 13, 12 20Z"/></svg>
+  <svg class="oh h4" viewBox="0 0 24 22"><path d="M12 20 C 2 13, 1 6, 6 4 C 9 3, 11 5, 12 7 C 13 5, 15 3, 18 4 C 23 6, 22 13, 12 20Z"/></svg>
+  <svg class="oh s1" viewBox="0 0 24 24"><path d="M12 2 L14.8 8.6 L22 9.3 L16.6 14 L18.2 21 L12 17.3 L5.8 21 L7.4 14 L2 9.3 L9.2 8.6Z"/></svg>
+</div>
+
+<main class="wrap" id="app">
+  <!-- 1 cover -->
+  <section class="step" id="s1">
+    <div class="cover">
+      <h1 class="title">I'm Sorry</h1>
+      <svg class="wave" viewBox="0 0 300 16" aria-hidden="true"><path pathLength="1" d="M2 8 C 40 -2, 70 18, 110 8 S 190 -2, 230 8 S 280 14, 298 8"/></svg>
+      <p class="sub">Can we talk for a minute?</p>
+      <button class="pill" type="button" data-go="2">Open</button>
+    </div>
+    <div class="bunny-zone">
+      <p class="bubble">I'm sorry.</p>
+      <div data-bunny style="width:190px"></div>
+    </div>
+    <div class="flowers" data-flowers></div>
+  </section>
+
+  <!-- 2 letter -->
+  <section class="step" id="s2" hidden>
+    <button class="back" type="button" data-go="1">Back</button>
+    <article class="paper" aria-label="Letter">
+      <span class="tape-top" aria-hidden="true"></span>
+      <span class="xoxo" aria-hidden="true">xoxo</span>
+      <h2 class="greet">My Love,</h2>
+      <p>I think I owe the most beautiful heart an apology.</p>
+      <p>I'm genuinely sorry for the harsh things I said. You didn't deserve those words, especially not from someone who loves you as much as I do. I know I made a mistake, and I wish I could take those words back and replace them with all the love you deserve.</p>
+      <p>Sometimes my anger gets louder than my love, and that's something I really need to work on. Because you deserve a girl who knows how to hold your heart gently, even when she's upset.</p>
+      <p>You're my favourite person, my safest place, my forever plan, and the human I want to annoy for the rest of my life. ❤️</p>
+      <p>And honestly, how can someone with such a pretty heart get stuck with a girlfriend who occasionally has a software glitch? 😂</p>
+      <p>I promise I'll try to be better at communicating instead of hurting you with my words. I don't want my ego to ever become bigger than the love we share.</p>
+      <p>If I could, I'd give your heart a big hug, kiss your forehead, and tell it that its owner is loved more than words can explain.</p>
+      <p>I'm sorry, my handsome human. Please don't let one bad moment overshadow all the beautiful moments and all the love waiting for us.</p>
+      <p class="sign">I love you, my future husband. Always.</p>
+    </article>
+    <div class="letter-bunny">
+      <p class="bubble">I'm so sorry.</p>
+      <div data-bunny style="width:120px"></div>
+    </div>
+    <button class="pill" type="button" data-go="3">Continue</button>
+    <div class="gap"></div>
+    <div class="flowers" data-flowers></div>
+  </section>
+
+  <!-- 3 ask -->
+  <section class="step" id="s3" hidden>
+    <button class="back" type="button" data-go="2">Back</button>
+    <div class="ask-card">
+      <h2>One last thing</h2>
+      <p class="big-q">May I take you on a movie date, as my way of making it up to you?</p>
+      <p class="small">My treat. Your choice of movie, snacks and everything else.</p>
+      <div class="ask-rx mood-wait" id="askRx">
+        <p class="bubble" id="askBubble">Pretty please?</p>
+        <div class="rx-bunny"><div data-bunny></div></div>
+      </div>
+      <div class="stack">
+        <button class="pill" id="yes" type="button">Yes, you may</button>
+        <button class="ghost" id="think" type="button">Let me think</button>
+      </div>
+    </div>
+    <div class="gap"></div>
+    <div class="flowers" data-flowers></div>
+  </section>
+
+  <!-- 4 plan -->
+  <section class="step" id="s4" hidden>
+    <button class="back" type="button" data-go="3">Back</button>
+    <div class="head-block">
+      <h2>Our movie date</h2>
+      <p>Pick whatever you like. I'll make it happen.</p>
+    </div>
+    <form class="plan" id="plan" autocomplete="off">
+      <fieldset class="opts"><legend>Day</legend><div class="chips">
+        <label class="chip"><input type="radio" name="day" value="Tonight"><span>Tonight</span></label>
+        <label class="chip"><input type="radio" name="day" value="Tomorrow"><span>Tomorrow</span></label>
+        <label class="chip"><input type="radio" name="day" value="This weekend" checked><span>This weekend</span></label>
+        <label class="chip"><input type="radio" name="day" value="You decide"><span>You decide</span></label>
+      </div></fieldset>
+      <fieldset class="opts"><legend>Time</legend><div class="chips">
+        <label class="chip"><input type="radio" name="time" value="Afternoon"><span>Afternoon</span></label>
+        <label class="chip"><input type="radio" name="time" value="Evening" checked><span>Evening</span></label>
+        <label class="chip"><input type="radio" name="time" value="Late night"><span>Late night</span></label>
+      </div></fieldset>
+      <fieldset class="opts"><legend>Movie vibe</legend><div class="chips">
+        <label class="chip"><input type="radio" name="vibe" value="Romcom" checked><span>Romcom</span></label>
+        <label class="chip"><input type="radio" name="vibe" value="Action"><span>Action</span></label>
+        <label class="chip"><input type="radio" name="vibe" value="Thriller"><span>Thriller</span></label>
+        <label class="chip"><input type="radio" name="vibe" value="Animated"><span>Animated</span></label>
+        <label class="chip"><input type="radio" name="vibe" value="Comedy"><span>Comedy</span></label>
+        <label class="chip"><input type="radio" name="vibe" value="Horror"><span>Horror</span></label>
+        <label class="chip"><input type="radio" name="vibe" value="I'll pick one"><span>I'll pick one</span></label>
+      </div></fieldset>
+      <fieldset class="opts"><legend>Where</legend><div class="chips">
+        <label class="chip"><input type="radio" name="place" value="Cinema" checked><span>Cinema</span></label>
+        <label class="chip"><input type="radio" name="place" value="Home with blankets"><span>Home with blankets</span></label>
+        <label class="chip"><input type="radio" name="place" value="Surprise me"><span>Surprise me</span></label>
+      </div></fieldset>
+      <fieldset class="opts"><legend>Snacks, pick any</legend><div class="chips">
+        <label class="chip"><input type="checkbox" name="snack" value="Popcorn" checked><span>Popcorn</span></label>
+        <label class="chip"><input type="checkbox" name="snack" value="Nachos"><span>Nachos</span></label>
+        <label class="chip"><input type="checkbox" name="snack" value="Ice cream"><span>Ice cream</span></label>
+        <label class="chip"><input type="checkbox" name="snack" value="Chocolate"><span>Chocolate</span></label>
+        <label class="chip"><input type="checkbox" name="snack" value="Cold coffee"><span>Cold coffee</span></label>
+        <label class="chip"><input type="checkbox" name="snack" value="Pizza"><span>Pizza</span></label>
+      </div></fieldset>
+    </form>
+    <div class="ticket-wrap">
+      <div class="ticket" id="ticket" aria-label="Your movie date ticket">
+        <div class="t-head"><strong>Movie Date</strong><span>Admit two</span></div>
+        <dl class="t-grid">
+          <div><dt>Day</dt><dd id="tDay"></dd></div>
+          <div><dt>Time</dt><dd id="tTime"></dd></div>
+          <div><dt>Movie vibe</dt><dd id="tVibe"></dd></div>
+          <div><dt>Where</dt><dd id="tPlace"></dd></div>
+          <div class="t-wide"><dt>Snacks</dt><dd id="tSnacks"></dd></div>
+        </dl>
+        <div class="t-perf" aria-hidden="true"></div>
+        <div class="t-foot"><span>Seats: right next to me</span><span>Phones: away</span></div>
+        <div class="stamp" aria-hidden="true">BOOKED</div>
+      </div>
+      <button class="pill" id="book" type="button">Book our movie date</button>
+      <div class="done" id="done" hidden aria-live="polite">
+        <p>Booked! Send me your plan so I can start getting ready.</p>
+        <textarea id="planText" rows="6" readonly aria-label="Your movie date plan"></textarea>
+        <div class="row">
+          <a class="pill" id="wa" href="https://wa.me/" target="_blank" rel="noopener" style="font-size:1.1rem;padding:10px 26px">Send on WhatsApp</a>
+          <button class="ghost" id="copy" type="button">Copy plan</button>
+        </div>
+        <p class="copy-msg" id="copyMsg"></p>
+      </div>
+    </div>
+    <div class="gap"></div>
+    <div class="flowers" data-flowers></div>
+  </section>
+</main>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+
+  // zigzag blob
+  (function () {
+    function poly(rBig, rSmall, fill, op) {
+      var pts = ["0,0"], n = 18;
+      for (var i = 0; i <= n; i++) {
+        var a = (i / n) * Math.PI / 2, r = i % 2 ? rSmall : rBig;
+        pts.push((r * Math.cos(a)).toFixed(1) + "," + (r * Math.sin(a)).toFixed(1));
+      }
+      return '<polygon points="' + pts.join(" ") + '" fill="' + fill + '" opacity="' + op + '"/>';
+    }
+    $("#blob").innerHTML = poly(318, 292, "#F3B4CF", ".55") + poly(286, 262, "#F3B4CF", ".85");
+  })();
+
+  // bunny
+  var BUNNY = '<svg class="bunny" viewBox="0 0 200 232" role="img" aria-label="A small bunny">' +
+    '<ellipse class="bn" cx="100" cy="198" rx="46" ry="38"/><ellipse class="bn" cx="78" cy="218" rx="17" ry="10"/><ellipse class="bn" cx="122" cy="218" rx="17" ry="10"/>' +
+    '<circle class="bn" cx="84" cy="190" r="9"/><circle class="bn" cx="116" cy="190" r="9"/>' +
+    '<g transform="rotate(-16 70 104)"><ellipse class="bn" cx="70" cy="60" rx="19" ry="48"/><ellipse class="in" cx="70" cy="64" rx="9" ry="34"/></g>' +
+    '<g transform="rotate(16 130 104)"><ellipse class="bn" cx="130" cy="60" rx="19" ry="48"/><ellipse class="in" cx="130" cy="64" rx="9" ry="34"/></g>' +
+    '<ellipse class="bn" cx="100" cy="130" rx="60" ry="52"/>' +
+    '<ellipse class="ch" cx="66" cy="144" rx="11" ry="8"/><ellipse class="ch" cx="134" cy="144" rx="11" ry="8"/>' +
+    '<ellipse class="ns" cx="100" cy="138" rx="6" ry="4.5"/>' +
+    '<g class="m-sad"><circle class="f-eye" cx="78" cy="124" r="7"/><circle class="f-eye" cx="122" cy="124" r="7"/><circle class="hl" cx="80.5" cy="121.5" r="2.5"/><circle class="hl" cx="124.5" cy="121.5" r="2.5"/>' +
+    '<path class="f-line" d="M64 112 L90 106 M110 106 L136 112"/><path class="f-line" d="M92 152 Q100 145 108 152"/><path class="f-tear" d="M68 134 q-5 9 0 12 q5 -3 0 -12z"/></g>' +
+    '<g class="m-happy"><path class="f-line" d="M68 126 Q78 113 88 126 M112 126 Q122 113 132 126"/><path class="f-mouth" d="M88 148 Q100 166 112 148 Z"/></g>' +
+    '<g class="m-wait"><circle class="f-eye" cx="78" cy="124" r="7"/><circle class="f-eye" cx="122" cy="124" r="7"/><circle class="hl" cx="80.5" cy="121.5" r="2.5"/><circle class="hl" cx="124.5" cy="121.5" r="2.5"/><ellipse class="f-eye" cx="100" cy="152" rx="4" ry="5"/></g></svg>';
+  document.querySelectorAll("[data-bunny]").forEach(function (el) { el.innerHTML = BUNNY; });
+
+  // flowers
+  function flowerSVG(deep) {
+    var c = deep ? "#E27FAA" : "#F4B6D0", p = "";
+    for (var i = 0; i < 5; i++) {
+      var a = (i * 72 - 90) * Math.PI / 180;
+      p += '<circle cx="' + (24 * Math.cos(a)).toFixed(1) + '" cy="' + (24 * Math.sin(a)).toFixed(1) + '" r="20" fill="' + c + '"/>';
+    }
+    return '<svg viewBox="-50 -50 100 100" aria-hidden="true">' + p + '<circle r="13" fill="#7A1440"/><circle r="5" fill="#F9D3E3"/></svg>';
+  }
+  var POS = [[-2, 96, 1, -34], [16, 76, 0, -22], [34, 104, 1, -40], [52, 78, 0, -20], [68, 110, 1, -42], [86, 82, 0, -24], [99, 100, 1, -36]];
+  document.querySelectorAll("[data-flowers]").forEach(function (box) {
+    POS.forEach(function (p, i) {
+      var d = document.createElement("div");
+      d.className = "fl";
+      d.style.left = "calc(" + p[0] + "% - " + (p[1] / 2) + "px)";
+      d.style.bottom = p[3] + "px";
+      d.style.width = d.style.height = p[1] + "px";
+      d.style.animationDelay = -rnd(0, 6) + "s";
+      d.innerHTML = flowerSVG(p[2]);
+      box.appendChild(d);
+    });
+  });
+
+  // navigation
+  var steps = [].slice.call(document.querySelectorAll(".step"));
+  function go(n) {
+    steps.forEach(function (s, i) { s.hidden = i !== n - 1; });
+    window.scrollTo(0, 0);
+    var h = steps[n - 1].querySelector("h1, h2");
+    if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+    if (n === 2) confetti(26, 2600);
+  }
+  document.querySelectorAll("[data-go]").forEach(function (b) {
+    b.addEventListener("click", function () { go(parseInt(b.getAttribute("data-go"), 10)); });
+  });
+
+  // reactions
+  function Rx(root) {
+    var stage = root.querySelector(".rx-bunny"), bub = root.querySelector(".bubble"), rainEl = root.querySelector(".rain");
+    return {
+      mood: function (m) { root.classList.remove("mood-wait", "mood-yes", "mood-no"); root.classList.add("mood-" + m); },
+      anim: function (c) { root.classList.remove("hop", "sob"); void root.offsetWidth; root.classList.add(c); },
+      clear: function () { root.classList.remove("hop", "sob"); },
+      say: function (t, kind) {
+        bub.textContent = t;
+        bub.className = "bubble" + (bub.id === "bubble" ? " side" : "") + (kind ? " " + kind : "");
+        void bub.offsetWidth;
+        bub.classList.add("pop");
+      },
+      hearts: function (n) {
+        if (reduce) return;
+        for (var i = 0; i < n; i++) {
+          (function (i) {
+            var h = document.createElement("span");
+            h.className = "hh";
+            h.textContent = "♥";
+            h.style.left = rnd(15, 75) + "%";
+            h.style.fontSize = rnd(16, 30) + "px";
+            h.style.animationDelay = i * 0.06 + "s";
+            h.style.setProperty("--hx", rnd(-36, 36) + "px");
+            stage.appendChild(h);
+            setTimeout(function () { h.remove(); }, 1700);
+          })(i);
+        }
+      },
+      rain: function () {
+        if (reduce || !rainEl) return;
+        for (var i = 0; i < 10; i++) {
+          (function (i) {
+            var d = document.createElement("span");
+            d.className = "drop";
+            d.style.left = rnd(24, 74) + "%";
+            d.style.animationDelay = i * 0.09 + "s";
+            rainEl.appendChild(d);
+            setTimeout(function () { d.remove(); }, 2200);
+          })(i);
+        }
+      }
+    };
+  }
+  // movie date ask
+  var ask = Rx($("#askRx"));
+  $("#yes").addEventListener("click", function () {
+    ask.mood("yes"); ask.anim("hop");
+    ask.say("Hurray!", "yes");
+    ask.hearts(14);
+    confetti(70, 3200);
+    setTimeout(function () { go(4); }, reduce ? 0 : 1300);
+  });
+  $("#think").addEventListener("click", function () {
+    ask.mood("no"); ask.anim("sob");
+    ask.say("Okay. I'll wait right here.", "");
+  });
+
+  // movie date plan
+  var plan = $("#plan"), ticket = $("#ticket"), done = $("#done"), book = $("#book");
+  function val(name) {
+    var r = plan.querySelector('input[name="' + name + '"]:checked');
+    return r ? r.value : "";
+  }
+  function snacks() {
+    return [].map.call(plan.querySelectorAll('input[name="snack"]:checked'), function (i) { return i.value; });
+  }
+  function renderTicket() {
+    $("#tDay").textContent = val("day");
+    $("#tTime").textContent = val("time");
+    $("#tVibe").textContent = val("vibe");
+    $("#tPlace").textContent = val("place");
+    $("#tSnacks").textContent = snacks().join(", ") || "Nothing yet";
+  }
+  function unbook() {
+    ticket.classList.remove("booked");
+    done.hidden = true;
+    book.textContent = "Book our movie date";
+  }
+  plan.addEventListener("submit", function (e) { e.preventDefault(); });
+  plan.addEventListener("change", function () { renderTicket(); unbook(); });
+  renderTicket();
+  book.addEventListener("click", function () {
+    var text = "Yes to the movie date!\n" +
+      "Day: " + val("day") + "\n" +
+      "Time: " + val("time") + "\n" +
+      "Movie vibe: " + val("vibe") + "\n" +
+      "Where: " + val("place") + "\n" +
+      "Snacks: " + (snacks().join(", ") || "surprise me") + "\n" +
+      "Can't wait.";
+    ticket.classList.add("booked");
+    done.hidden = false;
+    book.textContent = "Booked. Tap to celebrate again";
+    $("#planText").value = text;
+    $("#wa").href = "https://wa.me/?text=" + encodeURIComponent(text);
+    $("#copyMsg").textContent = "";
+    confetti(80, 4200);
+    done.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
+  });
+  $("#copy").addEventListener("click", function () {
+    var ta = $("#planText"), msg = $("#copyMsg");
+    function fallback() {
+      ta.focus(); ta.select();
+      msg.textContent = "The plan is selected. Copy it and send it to me.";
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ta.value).then(function () {
+        msg.textContent = "Copied. Paste it in our chat.";
+      }, fallback);
+    } else { fallback(); }
+  });
+
+  // falling hearts
+  var cfId = 0;
+  function confetti(count, ms) {
+    if (reduce) return;
+    var my = ++cfId;
+    var cv = $("#fx"), ctx = cv.getContext("2d");
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    var cols = ["#8A1B4A", "#E27FAA", "#F3B4CF", "#C2185B", "#F7C948", "#F6A9C6"];
+    var items = [];
+    for (var i = 0; i < count; i++) {
+      items.push({
+        x: Math.random() * innerWidth, y: -20 - Math.random() * innerHeight * 0.6,
+        vy: 1.6 + Math.random() * 2.4, vx: (Math.random() - 0.5) * 1.2,
+        s: 14 + Math.random() * 18, r: Math.random() * 6, vr: (Math.random() - 0.5) * 0.06,
+        c: cols[i % cols.length]
+      });
+    }
+    var start = performance.now();
+    (function frame(t) {
+      if (my !== cfId) return;
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      items.forEach(function (p) {
+        p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.fillStyle = p.c; ctx.font = p.s + "px sans-serif"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
+        ctx.fillText("♥", 0, 0);
+        ctx.restore();
+      });
+      if (t - start < ms) requestAnimationFrame(frame);
+      else ctx.clearRect(0, 0, innerWidth, innerHeight);
+    })(start);
+  }
+})();
+</script>
+
+</body></html>
